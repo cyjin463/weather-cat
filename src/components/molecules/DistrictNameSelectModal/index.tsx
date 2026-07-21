@@ -1,5 +1,6 @@
 import { regions } from "@/constants/regions";
 import { useGetDistrictNameList } from "@/hooks/useRegions";
+import { getWeatherData } from "@/services/weather-api";
 import { useModalStore } from "@/stores/modalStore";
 import { useRegionsStore } from "@/stores/regionsStore";
 import { FlatList, Modal, Pressable, Text, View } from "react-native";
@@ -12,10 +13,12 @@ const DistrictNameSelectModal = () => {
     return useGetDistrictNameList(cityName);
   }
 
-  const selectDistrictName = (districtName: string) => {
+  const selectDistrictName = async (districtName: string) => {
     const data = regions.filter(region => region.cityName === selectedRegion?.cityName && region.districtName === districtName);
     setSelectedRegion(data[0]);
     setOpenModal(undefined);
+    const weatherData = await getWeatherData(data[0].lat, data[0].long);
+    
   }
 
   return (

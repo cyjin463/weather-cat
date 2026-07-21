@@ -4,6 +4,7 @@ export async function getWeatherData(lat: string, long: string, forecastDays: nu
  const url = new URL(FORECAST_URL)
  url.searchParams.set('latitude', lat)
  url.searchParams.set('longitude', long)
+ url.searchParams.set('current', 'temperature_2m,weather_code,is_day')
  url.searchParams.set('daily', 'weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset')
  url.searchParams.set('timezone', 'auto')
  url.searchParams.set('forecast_days', forecastDays.toString())
@@ -21,9 +22,9 @@ export async function getWeatherData(lat: string, long: string, forecastDays: nu
     sunrise: json.current.sunrise,
     sunset: json.current.sunset,
  }
- const daily = json.daily.map((date: string, i: number) => ({
+ const daily = json.daily.time.map((date: string, i: number) => ({
     date,
-    weatherCode: json.daily.weather_code[i],
+    weatherCode: json.daily.weathercode[i],
     tempMax: json.daily.temperature_2m_max[i],
     tempMin: json.daily.temperature_2m_min[i],
  }))
