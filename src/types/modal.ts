@@ -1,0 +1,1 @@
+export type ModalType = "CITY_NAME_LIST" | "DISTRICT_NAME_LIST" | undefined;
