@@ -23,20 +23,12 @@ export function useInitialLocation() {
         const result = await getCurrentNearestRegion();
 
         if (!result.ok) {
-          console.warn("[useInitialLocation] 위치 실패:", result.reason);
           if (shouldOpenLocationSettings(result.reason)) {
             promptOpenLocationSettings(result.reason);
           }
           return;
         }
 
-        console.log(
-          "[useInitialLocation] 현재 위치 지역:",
-          result.region.cityName,
-          result.region.districtName,
-          result.latitude,
-          result.longitude,
-        );
         // Zustand는 unmount 후에도 안전하게 갱신 가능 (Strict Mode 취소로 결과 버리지 않음)
         setSelectedRegion(result.region);
 
@@ -51,8 +43,8 @@ export function useInitialLocation() {
           weatherCode: weatherData.current.weatherCode,
           districtName: result.region.districtName,
         });
-      } catch (error) {
-        console.warn("[useInitialLocation] 초기 위치/날씨 로드 실패:", error);
+      } catch {
+        // 초기 위치/날씨 로드 실패 시 조용히 무시 (수동 지역 선택 가능)
       }
     };
 

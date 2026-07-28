@@ -14,8 +14,8 @@ export default function RootLayout() {
   useEffect(() => {
     SplashScreen.hideAsync();
     // 위젯은 항상 현재 위치 기준으로 갱신
-    refreshWidgetFromCurrentLocation().catch((error) => {
-      console.warn("위젯 갱신 실패:", error);
+    refreshWidgetFromCurrentLocation().catch(() => {
+      // 위젯 갱신 실패 무시
     });
   }, []);
 

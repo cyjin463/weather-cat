@@ -14,11 +14,8 @@ import type { WidgetTaskHandler } from "react-native-android-widget";
 
 export const widgetTaskHandler: WidgetTaskHandler = async ({
   widgetAction,
-  widgetInfo,
   renderWidget,
 }) => {
-  console.log("[WeatherCatWidget]", widgetAction, widgetInfo);
-
   if (widgetAction === "WIDGET_DELETED") return;
 
   try {
@@ -30,14 +27,9 @@ export const widgetTaskHandler: WidgetTaskHandler = async ({
 
     // GPS를 못 잡으면 앱에서 저장해 둔 마지막 현재 위치 사용
     if (!result.ok) {
-      console.warn("[WeatherCatWidget] 위치 실패:", result.reason, "→ 캐시 시도");
       const cached = await loadCachedNearestRegion();
       if (cached?.ok) {
         result = cached;
-        console.log(
-          "[WeatherCatWidget] 캐시 위치 사용:",
-          cached.region.districtName,
-        );
       }
     }
 
@@ -67,7 +59,6 @@ export const widgetTaskHandler: WidgetTaskHandler = async ({
     // 날씨 스냅샷이라도 있으면 표시
     const saved = await loadWidgetWeather();
     if (saved) {
-      console.warn("[WeatherCatWidget] 날씨 스냅샷 폴백");
       renderWidget(
         <WeatherCatWidget
           temperature={saved.temperature}
@@ -85,8 +76,7 @@ export const widgetTaskHandler: WidgetTaskHandler = async ({
         districtName="위치 없음"
       />,
     );
-  } catch (error) {
-    console.warn("[WeatherCatWidget] render failed:", error);
+  } catch {
     renderWidget(
       <WeatherCatWidget
         temperature="--°"

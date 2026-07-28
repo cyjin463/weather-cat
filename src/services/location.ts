@@ -108,7 +108,6 @@ async function readDevicePosition(
 
   const lastKnown = await Location.getLastKnownPositionAsync();
   if (lastKnown) {
-    console.log("[location] lastKnown 사용");
     return lastKnown;
   }
 
@@ -122,24 +121,20 @@ async function readDevicePosition(
       }),
       mode === "quick" ? QUICK_TIMEOUT_MS : CURRENT_TIMEOUT_MS,
     );
-    console.log("[location] getCurrent 사용");
     return current;
-  } catch (error) {
-    console.warn("[location] getCurrent 실패:", error);
+  } catch {
+    // getCurrent 실패 시 watch/quick 폴백
   }
 
   if (mode === "quick") {
-    console.warn("[location] quick 모드 — 좌표 없음");
     return null;
   }
 
   const watched = await waitForWatchFix(WATCH_TIMEOUT_MS);
   if (watched) {
-    console.log("[location] watch fix 사용");
     return watched;
   }
 
-  console.warn("[location] 좌표를 얻지 못함");
   return null;
 }
 
