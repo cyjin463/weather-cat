@@ -2,18 +2,18 @@ import RegionSelectBtns from "@/components/molecules/RegionSelectBtns";
 import Modal from "@/components/organisms/Modal";
 import Weather from "@/components/organisms/Weather";
 import { BACKGROUND_IMAGE } from "@/constants/commons";
-import { Dimensions, ImageBackground, ScrollView, View } from "react-native";
-
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import { ImageBackground, ScrollView, useWindowDimensions, View } from "react-native";
 
 export default function Index() {
+  const { height } = useWindowDimensions();
+
   return (
     <ImageBackground
       source={BACKGROUND_IMAGE}
-      style={{ width: "100%", height: "100%" }}
+      style={{ flex: 1, width: "100%" }}
       resizeMode="cover"
     >
-      <View style={{ height: SCREEN_HEIGHT * 0.30 }} />
+      <View style={{ height: height * 0.3 }} />
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}

@@ -6,11 +6,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 const AppHeader = ({ title, back, onBack }: HeaderProps) => {
   const insets = useSafeAreaInsets();
 
+  const height = insets.top + HEADER_HEIGHT;
+
   return (
     <ImageBackground
       source={HEADER_IMAGE}
       resizeMode="cover"
-      style={{ paddingTop: insets.top, width: "100%", height: "100%" }}
+      style={{ width: "100%", height, paddingTop: insets.top }}
     >
       <View
         style={{
