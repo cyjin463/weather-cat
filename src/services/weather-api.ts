@@ -1,6 +1,6 @@
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast'   
 
-export async function getWeatherData(lat: string, long: string, forecastDays: number = 7) {
+export async function getFetchWeatherData(lat: string, long: string, forecastDays: number = 7) {
  const url = new URL(FORECAST_URL)
  url.searchParams.set('latitude', lat)
  url.searchParams.set('longitude', long)
@@ -17,16 +17,14 @@ export async function getWeatherData(lat: string, long: string, forecastDays: nu
  const json = await res.json()
 
  const current = {
-    temperature: json.current.temperature_2m,
-    weathercode: json.current.weathercode,
-    sunrise: json.current.sunrise,
-    sunset: json.current.sunset,
+    temperature: `${json.current.temperature_2m}°`,
+    weatherCode: json.current.weather_code,
  }
  const daily = json.daily.time.map((date: string, i: number) => ({
     date,
     weatherCode: json.daily.weathercode[i],
-    tempMax: json.daily.temperature_2m_max[i],
-    tempMin: json.daily.temperature_2m_min[i],
+    tempMax: `${json.daily.temperature_2m_max[i]}°`,
+    tempMin: `${json.daily.temperature_2m_min[i]}°`,
  }))
 
  return { current, daily }

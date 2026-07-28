@@ -1,4 +1,4 @@
-import { useGetCityNameList } from "@/hooks/useRegions";
+import { getCityNameList } from "@/utils/regions";
 import { useModalStore } from "@/stores/modalStore";
 import { useRegionsStore } from "@/stores/regionsStore";
 import { FlatList, Modal, Pressable, Text, View } from "react-native";
@@ -6,9 +6,6 @@ import { FlatList, Modal, Pressable, Text, View } from "react-native";
 const CityNameSelectModal = () => {
   const { openModal, setOpenModal } = useModalStore();
   const { setSelectedRegion } = useRegionsStore();
-  const getCityNameList = () => {
-    return useGetCityNameList();
-  }
 
   return (
     <Modal visible={openModal === "CITY_NAME_LIST"} transparent animationType="fade">

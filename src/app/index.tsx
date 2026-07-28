@@ -1,26 +1,32 @@
 import RegionSelectBtns from "@/components/molecules/RegionSelectBtns";
 import Modal from "@/components/organisms/Modal";
+import WeatherSection from "@/components/organisms/WeatherSection";
 import { BACKGROUND_IMAGE } from "@/constants/commons";
-import { ImageBackground, View } from "react-native";
+import { Dimensions, ImageBackground, ScrollView, View } from "react-native";
+
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default function Index() {
   return (
     <ImageBackground
-    source={BACKGROUND_IMAGE}
-    style={{width: "100%", height: "100%" }}
-    resizeMode="cover"
-  >
-      <View style={{
-          position: "absolute",
-          top: "35%",
-          left: 0,
-          right: 0,
+      source={BACKGROUND_IMAGE}
+      style={{ width: "100%", height: "100%" }}
+      resizeMode="cover"
+    >
+      <View style={{ height: SCREEN_HEIGHT * 0.25 }} />
+      <ScrollView
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 40,
           paddingHorizontal: 32,
-          gap: 16,}}>
-        
+          gap: 16,
+        }}
+      >
         <RegionSelectBtns />
+        <WeatherSection />
+      </ScrollView>
       <Modal />
-      </View>
     </ImageBackground>
   );
 }
