@@ -4,12 +4,13 @@ interface RegionSelectBtnProps {
     onPress: () => void;
     text: string;
     color: string;
+    disabled?: boolean;
 }
 
-const RegionSelectBtn = ({ onPress, text, color }: RegionSelectBtnProps) => {
+const RegionSelectBtn = ({ onPress, text, color, disabled }: RegionSelectBtnProps) => {
   return (
     <Pressable
-      onPress={onPress} 
+      onPress={disabled ? undefined : onPress} 
       style={{ 
         alignItems: "center", 
         paddingVertical: 8,
@@ -20,6 +21,7 @@ const RegionSelectBtn = ({ onPress, text, color }: RegionSelectBtnProps) => {
         minWidth: 300,
         maxWidth: 500,
         overflow: "hidden",
+        opacity: disabled ? 0.3 : 1,
       }}>
       <Text style={{ fontSize: 24, fontWeight: "bold", color: color }}>{text}</Text>
     </Pressable>

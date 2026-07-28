@@ -15,6 +15,7 @@ const RegionSelectBtns = () => {
         color="#F58CA0"
       />
       <RegionSelectBtn
+        disabled={!selectedRegion?.cityName}
         onPress={() => setOpenModal("DISTRICT_NAME_LIST")}
         text={selectedRegion?.districtName || "구 선택"}
         color="#78B4EB" />

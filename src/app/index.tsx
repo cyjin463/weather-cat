@@ -22,7 +22,7 @@ export default function Index() {
         }}
         contentFit="fill"
       />
-      <View style={{ height: height * 0.35 }} />
+      <View style={{ height: height * 0.3 }} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{

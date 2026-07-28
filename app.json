@@ -18,7 +18,9 @@
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
+        "ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
       ]
     },
     "web": {
@@ -49,11 +51,11 @@
             {
               "name": "WeatherCatWidget",
               "label": "Weather Cat",
-              "minWidth": "60dp",
-              "minHeight": "60dp",
-              "targetCellWidth": 1,
-              "targetCellHeight": 1,
-              "description": "설정한 지역의 현재 날씨를 고양이로 보여줍니다",
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "description": "고양이가 날씨를 알려줘요!",
               "updatePeriodMillis": 1800000
             }
           ]
@@ -64,6 +66,9 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.weathercat.app"
     }
   }
 }

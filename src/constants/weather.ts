@@ -47,7 +47,7 @@ export type WeatherImageKey =
   | "rainThunder"
   | "wind";
 
-/** 카테고리 -> 고양이 이미지 리소스 */
+/** 카테고리 -> 고양이 이미지 리소스 (앱 본문용) */
 export const WEATHER_IMAGES: Record<WeatherImageKey, ImageSourcePropType> = {
   sun: require("@/assets/images/weather/weather-sun.png"), // 맑음
   cloudy: require("@/assets/images/weather/weather-cloudy.png"), // 흐림/안개
@@ -58,6 +58,22 @@ export const WEATHER_IMAGES: Record<WeatherImageKey, ImageSourcePropType> = {
   thunder: require("@/assets/images/weather/weather-thunder.png"), // 천둥(비 없는 뇌우) - 코드 직접 매칭 없음
   rainThunder: require("@/assets/images/weather/weather-rain-thunder.png"), // 비를 동반한 뇌우
   wind: require("@/assets/images/weather/weather-wind.png"), // 강풍 - weather_code 없음(wind_speed로 판단)
+};
+
+/** 홈 위젯용 — 분홍 안내판 + 큰 고양이 (텍스트는 위젯에서 오버레이) */
+export const WIDGET_WEATHER_IMAGES: Record<
+  WeatherImageKey,
+  ImageSourcePropType
+> = {
+  sun: require("@/assets/images/weather/widget/weather-sun.png"),
+  cloudy: require("@/assets/images/weather/widget/weather-cloudy.png"),
+  rain: require("@/assets/images/weather/widget/weather-rain.png"),
+  rainSnow: require("@/assets/images/weather/widget/weather-rain-snow.png"),
+  winter: require("@/assets/images/weather/widget/weather-winter.png"),
+  hail: require("@/assets/images/weather/widget/weather-hail.png"),
+  thunder: require("@/assets/images/weather/widget/weather-thunder.png"),
+  rainThunder: require("@/assets/images/weather/widget/weather-rain-thunder.png"),
+  wind: require("@/assets/images/weather/widget/weather-wind.png"),
 };
 
 /**

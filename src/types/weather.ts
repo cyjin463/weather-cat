@@ -13,4 +13,6 @@ export interface WeatherDaily {
 export interface WeatherData {
     current: WeatherCurrent;
     daily: WeatherDaily[];
+    /** Open-Meteo timezone=auto — 요청 좌표 기준 IANA 타임존 */
+    timezone: string;
 }

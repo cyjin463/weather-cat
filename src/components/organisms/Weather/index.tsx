@@ -6,8 +6,15 @@ const Weather = () => {
   const { weatherData } = useWeatherStore();
   const { temperature: currentTemperature } = weatherData?.current ?? {};
 
+  if (!weatherData) {
+    return null;
+  }
+
   const checkIsToday = (date: string) => {
-    const today = new Date().toISOString().split("T")[0];
+    // 날씨 API(timezone=auto)와 같은 좌표 기준 타임존으로 "오늘" 비교
+    const today = new Date().toLocaleDateString("en-CA", {
+      timeZone: weatherData.timezone || "Asia/Seoul",
+    });
     return date === today;
   }
 
@@ -32,17 +39,13 @@ const Weather = () => {
     return "#5A4A4C";
   }
 
-  if (!weatherData) {
-    return null;
-  }
-
   return (
     <View style={{ width: "100%", alignItems: "center" }}>
-      <View style={{ width: "100%", alignItems: "center", gap: 3 }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>현재 날씨</Text>
+      <View style={{ width: "100%", alignItems: "center", gap: 4 }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>지금 여기는</Text>
         <Image
          source={getWeatherImage(weatherData?.current.weatherCode ?? 0)}
-         style={{ width: 80, height: 80, borderRadius: 20 }}
+         style={{ width: 80, height: 80, borderRadius: 20, marginTop: 4 }}
         />
         <Text style={{
           fontSize: 16,

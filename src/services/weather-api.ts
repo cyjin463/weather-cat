@@ -27,5 +27,5 @@ export async function getFetchWeatherData(lat: string, long: string, forecastDay
     tempMin: `${json.daily.temperature_2m_min[i]}°`,
  }))
 
- return { current, daily }
+ return { current, daily, timezone: json.timezone ?? "Asia/Seoul" }
 }

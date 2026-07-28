@@ -1,9 +1,9 @@
-import { ImageSourcePropType } from "react-native";
 import {
   WEATHER_CODES,
   WEATHER_CODE_TO_IMAGE,
   WEATHER_IMAGES,
 } from "@/constants/weather";
+import { ImageSourcePropType } from "react-native";
 
 /** weather_code에 대한 한글 설명 반환 (없으면 "알 수 없음") */
 export const getWeatherLabel = (code: number): string => {
