@@ -1,19 +1,13 @@
-import { HEADER_HEIGHT, HEADER_IMAGE, LOGO_IMAGE } from "@/constants/commons";
+import { HEADER_HEIGHT, LOGO_IMAGE } from "@/constants/commons";
 import { HeaderProps } from "@/types/header";
-import { Image, ImageBackground, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const AppHeader = ({ title, back, onBack }: HeaderProps) => {
+const AppHeader = ({ back, onBack }: HeaderProps) => {
   const insets = useSafeAreaInsets();
 
-  const height = insets.top + HEADER_HEIGHT;
-
   return (
-    <ImageBackground
-      source={HEADER_IMAGE}
-      resizeMode="cover"
-      style={{ width: "100%", height, paddingTop: insets.top }}
-    >
+    <View style={{ paddingTop: insets.top, backgroundColor: "transparent" }}>
       <View
         style={{
           height: HEADER_HEIGHT,
@@ -33,10 +27,10 @@ const AppHeader = ({ title, back, onBack }: HeaderProps) => {
         <Image
           source={LOGO_IMAGE}
           resizeMode="contain"
-          style={{ height: 34, width: "100%" }}
+          style={{ height: 34, width: "70%" }}
         />
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
