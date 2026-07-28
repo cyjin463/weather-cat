@@ -3,9 +3,10 @@ import { Pressable, Text } from "react-native";
 interface RegionSelectBtnProps {
     onPress: () => void;
     text: string;
+    color: string;
 }
 
-const RegionSelectBtn = ({ onPress, text }: RegionSelectBtnProps) => {
+const RegionSelectBtn = ({ onPress, text, color }: RegionSelectBtnProps) => {
   return (
     <Pressable
       onPress={onPress} 
@@ -15,12 +16,12 @@ const RegionSelectBtn = ({ onPress, text }: RegionSelectBtnProps) => {
         borderRadius: 16, 
         backgroundColor: "rgba(255,255,255,0.2)", 
         borderWidth: 1, 
-        borderColor: "#111",
+        borderColor: color,
         minWidth: 300,
         maxWidth: 500,
         overflow: "hidden",
       }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>{text}</Text>
+      <Text style={{ fontSize: 24, fontWeight: "bold", color: color }}>{text}</Text>
     </Pressable>
   );
 };

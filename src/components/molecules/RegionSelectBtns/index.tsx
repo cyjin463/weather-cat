@@ -9,8 +9,15 @@ const RegionSelectBtns = () => {
   
   return (
     <View style={{ gap: 16, alignItems: "center" }}>
-      <RegionSelectBtn onPress={() => setOpenModal("CITY_NAME_LIST")} text={selectedRegion?.cityName || "지역 선택"} />
-      <RegionSelectBtn onPress={() => setOpenModal("DISTRICT_NAME_LIST")} text={selectedRegion?.districtName || "구 선택"} />
+      <RegionSelectBtn
+        onPress={() => setOpenModal("CITY_NAME_LIST")}
+        text={selectedRegion?.cityName || "지역 선택"}
+        color="#F58CA0"
+      />
+      <RegionSelectBtn
+        onPress={() => setOpenModal("DISTRICT_NAME_LIST")}
+        text={selectedRegion?.districtName || "구 선택"}
+        color="#78B4EB" />
     </View>
   );
 };

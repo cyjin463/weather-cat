@@ -49,15 +49,15 @@ export type WeatherImageKey =
 
 /** 카테고리 -> 고양이 이미지 리소스 */
 export const WEATHER_IMAGES: Record<WeatherImageKey, ImageSourcePropType> = {
-  sun: require("@/assets/weather-sun.png"), // 맑음
-  cloudy: require("@/assets/weather-cloudy.png"), // 흐림/안개
-  rain: require("@/assets/weather-rain.png"), // 비/이슬비/소나기
-  rainSnow: require("@/assets/weather-rain-snow.png"), // 진눈깨비/어는 비
-  winter: require("@/assets/weather-winter.png"), // 눈
-  hail: require("@/assets/weather-hail.png"), // 우박(뇌우 동반)
-  thunder: require("@/assets/weather-thunder.png"), // 천둥(비 없는 뇌우) - 코드 직접 매칭 없음
-  rainThunder: require("@/assets/weather-rain-thunder.png"), // 비를 동반한 뇌우
-  wind: require("@/assets/weather-wind.png"), // 강풍 - weather_code 없음(wind_speed로 판단)
+  sun: require("@/assets/images/weather/weather-sun.png"), // 맑음
+  cloudy: require("@/assets/images/weather/weather-cloudy.png"), // 흐림/안개
+  rain: require("@/assets/images/weather/weather-rain.png"), // 비/이슬비/소나기
+  rainSnow: require("@/assets/images/weather/weather-rain-snow.png"), // 진눈깨비/어는 비
+  winter: require("@/assets/images/weather/weather-winter.png"), // 눈
+  hail: require("@/assets/images/weather/weather-hail.png"), // 우박(뇌우 동반)
+  thunder: require("@/assets/images/weather/weather-thunder.png"), // 천둥(비 없는 뇌우) - 코드 직접 매칭 없음
+  rainThunder: require("@/assets/images/weather/weather-rain-thunder.png"), // 비를 동반한 뇌우
+  wind: require("@/assets/images/weather/weather-wind.png"), // 강풍 - weather_code 없음(wind_speed로 판단)
 };
 
 /**

@@ -1,6 +1,6 @@
-import { getCityNameList } from "@/utils/regions";
 import { useModalStore } from "@/stores/modalStore";
 import { useRegionsStore } from "@/stores/regionsStore";
+import { getCityNameList } from "@/utils/regions";
 import { FlatList, Modal, Pressable, Text, View } from "react-native";
 
 const CityNameSelectModal = () => {
