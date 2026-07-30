@@ -40,6 +40,19 @@ export async function updateWeatherCatWidget(
   await renderSnapshot(data);
 }
 
+async function renderLastOrEmpty(fallbackDistrict: string) {
+  const saved = await loadWidgetWeather();
+  if (saved) {
+    await renderSnapshot(saved);
+    return;
+  }
+  await renderSnapshot({
+    temperature: "--°",
+    weatherCode: 3,
+    districtName: fallbackDistrict,
+  });
+}
+
 /**
  * 현재 기기 위치 기준으로 날씨를 조회해 위젯을 갱신합니다.
  * 앱에서 선택한 지역과 무관합니다.
@@ -49,49 +62,44 @@ export async function refreshWidgetFromCurrentLocation(
 ): Promise<void> {
   if (Platform.OS !== "android") return;
 
-  const result = await getCurrentNearestRegion({
-    requestPermission: options.requestPermission ?? false,
-    mode: "quick",
-  });
+  try {
+    let result = await getCurrentNearestRegion({
+      requestPermission: options.requestPermission ?? false,
+      mode: "quick",
+    });
 
-  if (!result.ok) {
-    const cached = await loadCachedNearestRegion();
-    if (cached?.ok) {
-      const weatherData = await getFetchWeatherData(
-        cached.region.lat,
-        cached.region.long,
-      );
-      const snapshot: WidgetWeatherSnapshot = {
-        temperature: weatherData.current.temperature,
-        weatherCode: weatherData.current.weatherCode,
-        districtName: cached.region.districtName,
-      };
-      await saveWidgetWeather(snapshot);
-      await renderSnapshot(snapshot);
+    if (!result.ok) {
+      const cached = await loadCachedNearestRegion();
+      if (cached?.ok) {
+        result = cached;
+      }
+    }
+
+    if (!result.ok) {
+      await renderLastOrEmpty("위치 없음");
       return;
     }
 
-    await renderSnapshot({
-      temperature: "--°",
-      weatherCode: 3,
-      districtName: "위치 없음",
-    });
-    return;
+    try {
+      const weatherData = await getFetchWeatherData(
+        result.region.lat,
+        result.region.long,
+      );
+
+      const snapshot: WidgetWeatherSnapshot = {
+        temperature: weatherData.current.temperature,
+        weatherCode: weatherData.current.weatherCode,
+        districtName: result.region.districtName,
+      };
+
+      await saveWidgetWeather(snapshot);
+      await renderSnapshot(snapshot);
+    } catch {
+      await renderLastOrEmpty(result.region.districtName);
+    }
+  } catch {
+    await renderLastOrEmpty("오류");
   }
-
-  const weatherData = await getFetchWeatherData(
-    result.region.lat,
-    result.region.long,
-  );
-
-  const snapshot: WidgetWeatherSnapshot = {
-    temperature: weatherData.current.temperature,
-    weatherCode: weatherData.current.weatherCode,
-    districtName: result.region.districtName,
-  };
-
-  await saveWidgetWeather(snapshot);
-  await renderSnapshot(snapshot);
 }
 
 /** 이미 조회한 현재 위치 날씨로 위젯을 저장·갱신합니다. */

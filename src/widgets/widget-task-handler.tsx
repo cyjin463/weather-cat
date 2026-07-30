@@ -12,6 +12,39 @@ import {
 import { WeatherCatWidget } from "@/widgets/WeatherCatWidget";
 import type { WidgetTaskHandler } from "react-native-android-widget";
 
+async function resolveGpsRegion() {
+  let result = await getCurrentNearestRegion({
+    requestPermission: false,
+    mode: "quick",
+  });
+
+  if (!result.ok) {
+    const cached = await loadCachedNearestRegion();
+    if (cached?.ok) {
+      result = cached;
+    }
+  }
+
+  return result;
+}
+
+function renderSnapshot(
+  renderWidget: Parameters<WidgetTaskHandler>[0]["renderWidget"],
+  snapshot: {
+    temperature: string;
+    weatherCode: number;
+    districtName: string;
+  },
+) {
+  renderWidget(
+    <WeatherCatWidget
+      temperature={snapshot.temperature}
+      weatherCode={snapshot.weatherCode}
+      districtName={snapshot.districtName}
+    />,
+  );
+}
+
 export const widgetTaskHandler: WidgetTaskHandler = async ({
   widgetAction,
   renderWidget,
@@ -19,70 +52,51 @@ export const widgetTaskHandler: WidgetTaskHandler = async ({
   if (widgetAction === "WIDGET_DELETED") return;
 
   try {
-    // 위젯 headless는 시간이 짧아서 quick 모드로 현재 위치 시도
-    let result = await getCurrentNearestRegion({
-      requestPermission: false,
-      mode: "quick",
-    });
+    const result = await resolveGpsRegion();
 
-    // GPS를 못 잡으면 앱에서 저장해 둔 마지막 현재 위치 사용
-    if (!result.ok) {
-      const cached = await loadCachedNearestRegion();
-      if (cached?.ok) {
-        result = cached;
+    if (result.ok) {
+      try {
+        const weatherData = await getFetchWeatherData(
+          result.region.lat,
+          result.region.long,
+        );
+
+        const snapshot = {
+          temperature: weatherData.current.temperature,
+          weatherCode: weatherData.current.weatherCode,
+          districtName: result.region.districtName,
+        };
+
+        await saveWidgetWeather(snapshot);
+        renderSnapshot(renderWidget, snapshot);
+        return;
+      } catch {
+        // API 실패 → 아래 스냅샷 폴백
       }
     }
 
-    if (result.ok) {
-      const weatherData = await getFetchWeatherData(
-        result.region.lat,
-        result.region.long,
-      );
-
-      const snapshot = {
-        temperature: weatherData.current.temperature,
-        weatherCode: weatherData.current.weatherCode,
-        districtName: result.region.districtName,
-      };
-
-      await saveWidgetWeather(snapshot);
-      renderWidget(
-        <WeatherCatWidget
-          temperature={snapshot.temperature}
-          weatherCode={snapshot.weatherCode}
-          districtName={snapshot.districtName}
-        />,
-      );
-      return;
-    }
-
-    // 날씨 스냅샷이라도 있으면 표시
     const saved = await loadWidgetWeather();
     if (saved) {
-      renderWidget(
-        <WeatherCatWidget
-          temperature={saved.temperature}
-          weatherCode={saved.weatherCode}
-          districtName={saved.districtName}
-        />,
-      );
+      renderSnapshot(renderWidget, saved);
       return;
     }
 
-    renderWidget(
-      <WeatherCatWidget
-        temperature="--°"
-        weatherCode={3}
-        districtName="위치 없음"
-      />,
-    );
+    renderSnapshot(renderWidget, {
+      temperature: "--°",
+      weatherCode: 3,
+      districtName: "위치 없음",
+    });
   } catch {
-    renderWidget(
-      <WeatherCatWidget
-        temperature="--°"
-        weatherCode={3}
-        districtName="오류"
-      />,
-    );
+    const saved = await loadWidgetWeather();
+    if (saved) {
+      renderSnapshot(renderWidget, saved);
+      return;
+    }
+
+    renderSnapshot(renderWidget, {
+      temperature: "--°",
+      weatherCode: 3,
+      districtName: "오류",
+    });
   }
 };

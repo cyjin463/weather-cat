@@ -53,41 +53,36 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 async function waitForWatchFix(
   timeoutMs: number,
 ): Promise<Location.LocationObject | null> {
-  let subscription: Location.LocationSubscription | null = null;
+  return new Promise<Location.LocationObject | null>((resolve) => {
+    let settled = false;
+    let subscription: Location.LocationSubscription | undefined;
 
-  try {
-    return await new Promise<Location.LocationObject | null>((resolve) => {
-      let settled = false;
+    const finish = (value: Location.LocationObject | null) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      subscription?.remove();
+      resolve(value);
+    };
 
-      const finish = (value: Location.LocationObject | null) => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        subscription?.remove();
-        resolve(value);
-      };
+    const timer = setTimeout(() => finish(null), timeoutMs);
 
-      const timer = setTimeout(() => finish(null), timeoutMs);
-
-      Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.Balanced,
-          distanceInterval: 0,
-          timeInterval: 500,
-        },
-        (location) => finish(location),
-      )
-        .then((sub) => {
-          subscription = sub;
-          if (settled) {
-            sub.remove();
-          }
-        })
-        .catch(() => finish(null));
-    });
-  } finally {
-    subscription?.remove();
-  }
+    Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.Balanced,
+        distanceInterval: 0,
+        timeInterval: 500,
+      },
+      (location) => finish(location),
+    )
+      .then((sub) => {
+        subscription = sub;
+        if (settled) {
+          sub.remove();
+        }
+      })
+      .catch(() => finish(null));
+  });
 }
 
 /**

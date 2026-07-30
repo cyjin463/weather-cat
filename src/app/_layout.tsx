@@ -1,6 +1,6 @@
 import AppHeader from "@/components/organisms/Header";
 import { useInitialLocation } from "@/hooks/useInitialLocation";
-import { refreshWidgetFromCurrentLocation } from "@/services/widget-update";
+import { registerWeatherBackgroundTask } from "@/tasks/weather-background-task";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -13,10 +13,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     SplashScreen.hideAsync();
-    // 위젯은 항상 현재 위치 기준으로 갱신
-    refreshWidgetFromCurrentLocation().catch(() => {
-      // 위젯 갱신 실패 무시
-    });
+    void registerWeatherBackgroundTask();
   }, []);
 
   return (

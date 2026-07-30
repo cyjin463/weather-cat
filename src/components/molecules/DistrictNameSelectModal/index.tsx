@@ -1,4 +1,5 @@
 import { regions } from "@/constants/regions";
+import { saveAppWeatherCache } from "@/services/app-weather-storage";
 import { getFetchWeatherData } from "@/services/weather-api";
 import { useModalStore } from "@/stores/modalStore";
 import { useRegionsStore } from "@/stores/regionsStore";
@@ -25,6 +26,7 @@ const DistrictNameSelectModal = () => {
     // 앱 화면 날씨만 변경. 위젯은 현재 위치 기준이라 여기서 갱신하지 않음.
     const weatherData = await getFetchWeatherData(region.lat, region.long);
     setWeatherData(weatherData);
+    await saveAppWeatherCache(region, weatherData);
   };
 
   return (
