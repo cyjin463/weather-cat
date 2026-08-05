@@ -15,3 +15,14 @@ export const getWeatherImage = (code: number): ImageSourcePropType => {
   const key = WEATHER_CODE_TO_IMAGE[code] ?? "cloudy";
   return WEATHER_IMAGES[key];
 };
+
+export const getCurrentTemperatureColor = (temperature: string) => {
+  const temperatureValue = parseInt(temperature);
+  if (temperatureValue >= 20) {
+    return "#F58CA0";
+  }
+  if (temperatureValue < 10) {
+    return "#78B4EB";
+  }
+  return "#5A4A4C";
+}

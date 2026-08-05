@@ -1,5 +1,10 @@
 import { ImageSourcePropType } from "react-native";
 
+export const WEATHER_COLORS = {
+  warm: "#F58CA0",
+  cold: "#78B4EB",
+};
+
 /**
  * Open-Meteo(WMO) weather_code 목록과 한글 설명
  * https://open-meteo.com/en/docs (WMO Weather interpretation codes)

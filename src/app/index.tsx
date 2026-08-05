@@ -21,6 +21,8 @@ export default function Index() {
           height: bgHeight,
         }}
         contentFit="fill"
+        cachePolicy="memory-disk"
+        priority="high"
       />
       <View style={{ height: height * 0.3 }} />
       <ScrollView
