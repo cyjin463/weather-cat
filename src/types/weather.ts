@@ -11,6 +11,7 @@ export interface WeatherDaily {
 }
 
 export interface WeatherHourly {
+    date: string;
     hour: number;
     temperature: string;
     weatherCode: number;

@@ -21,7 +21,9 @@ function getLocalDateAndHour(timeZone: string): { date: string; hour: number } {
   return { date, hour };
 }
 
-/** API timezone 기준 오늘 현재 시~23시만 남김 */
+const MAX_HOURLY_ITEMS = 12;
+
+/** API timezone 기준 현재 시부터 최대 12개 (내일까지 포함) */
 function buildHourlyToday(
   hourly: OpenMeteoHourly | undefined,
   timeZone: string,
@@ -34,16 +36,33 @@ function buildHourlyToday(
   const result: WeatherHourly[] = [];
 
   for (let i = 0; i < times.length; i++) {
+    if (result.length >= MAX_HOURLY_ITEMS) break;
+
     const time = times[i];
     if (!time) continue;
 
     const [datePart, timePart] = time.split("T");
-    if (datePart !== today) continue;
+    if (!datePart || !timePart) continue;
 
-    const hour = parseInt((timePart ?? "0").split(":")[0], 10);
-    if (Number.isNaN(hour) || hour < currentHour || hour > 23) continue;
+    if (datePart < today) continue;
+    if (datePart === today) {
+      const hour = parseInt(timePart.split(":")[0], 10);
+      if (Number.isNaN(hour) || hour < currentHour) continue;
+
+      result.push({
+        date: datePart,
+        hour,
+        temperature: `${temps[i]}°`,
+        weatherCode: codes[i] ?? 0,
+      });
+      continue;
+    }
+
+    const hour = parseInt(timePart.split(":")[0], 10);
+    if (Number.isNaN(hour)) continue;
 
     result.push({
+      date: datePart,
       hour,
       temperature: `${temps[i]}°`,
       weatherCode: codes[i] ?? 0,
