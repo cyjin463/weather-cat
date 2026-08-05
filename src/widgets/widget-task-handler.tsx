@@ -6,6 +6,7 @@ import {
 } from "@/services/location";
 import { getFetchWeatherData } from "@/services/weather-api";
 import {
+  buildWidgetSnapshot,
   loadWidgetWeather,
   saveWidgetWeather,
 } from "@/services/widget-storage";
@@ -60,12 +61,12 @@ export const widgetTaskHandler: WidgetTaskHandler = async ({
           result.region.lat,
           result.region.long,
         );
-
-        const snapshot = {
-          temperature: weatherData.current.temperature,
-          weatherCode: weatherData.current.weatherCode,
-          districtName: result.region.districtName,
-        };
+        const prev = await loadWidgetWeather();
+        const snapshot = buildWidgetSnapshot(
+          prev,
+          result.region,
+          weatherData.current,
+        );
 
         await saveWidgetWeather(snapshot);
         renderSnapshot(renderWidget, snapshot);

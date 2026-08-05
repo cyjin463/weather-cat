@@ -7,6 +7,7 @@ import {
 import { getFetchWeatherData } from "@/services/weather-api";
 import { WeatherCatWidget } from "@/widgets/WeatherCatWidget";
 import {
+  buildWidgetSnapshot,
   loadWidgetWeather,
   saveWidgetWeather,
   WidgetWeatherSnapshot,
@@ -85,12 +86,12 @@ export async function refreshWidgetFromCurrentLocation(
         result.region.lat,
         result.region.long,
       );
-
-      const snapshot: WidgetWeatherSnapshot = {
-        temperature: weatherData.current.temperature,
-        weatherCode: weatherData.current.weatherCode,
-        districtName: result.region.districtName,
-      };
+      const prev = await loadWidgetWeather();
+      const snapshot = buildWidgetSnapshot(
+        prev,
+        result.region,
+        weatherData.current,
+      );
 
       await saveWidgetWeather(snapshot);
       await renderSnapshot(snapshot);
