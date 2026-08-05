@@ -1,11 +1,13 @@
 import RegionSelectBtn from "@/components/atoms/RegionSelectBtn";
 import { useModalStore } from "@/stores/modalStore";
 import { useRegionsStore } from "@/stores/regionsStore";
+import { useWeatherStore } from "@/stores/weather";
 import { View } from "react-native";
 
 const RegionSelectBtns = () => {
   const { setOpenModal } = useModalStore();
   const { selectedRegion } = useRegionsStore();
+console.log(useWeatherStore().weatherData?.hourlyToday)
   
   return (
     <View style={{ gap: 16, alignItems: "center" }}>
