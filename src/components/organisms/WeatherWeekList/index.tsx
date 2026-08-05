@@ -18,6 +18,7 @@ const WeatherWeekList = () => {
   }
 
   const formatDate = (date: string) => {
+
     if (checkIsToday(date)) {
       return "오늘";
     }
@@ -25,6 +26,13 @@ const WeatherWeekList = () => {
     const month = parseInt(date.split("-")[1]);
     const day = parseInt(date.split("-")[2]);
     return `${month}/${day}`;
+  }
+
+  const getDayOfTheWeek = (date: string) => {
+    return new Date(`${date}T12:00:00`).toLocaleDateString("ko-KR", {
+      weekday: "long",
+      timeZone: timezone || "Asia/Seoul",
+    }).slice(0, 1);
   }
 
   return (
@@ -39,7 +47,7 @@ const WeatherWeekList = () => {
         renderItem={({ item }) => {
           const { date, weatherCode, tempMax, tempMin } = item as WeatherDaily;
           return (
-            <WeatherItemCard date={formatDate(date)} weatherCode={weatherCode} tempMax={tempMax} tempMin={tempMin} />
+            <WeatherItemCard date={formatDate(date)} dayOfTheWeek={getDayOfTheWeek(date)} weatherCode={weatherCode} tempMax={tempMax} tempMin={tempMin} />
           )
         }}
       />
