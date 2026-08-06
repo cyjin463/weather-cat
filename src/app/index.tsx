@@ -3,11 +3,14 @@ import Modal from "@/components/organisms/Modal";
 import Weather from "@/components/organisms/Weather";
 import { BACKGROUND_ASPECT, BACKGROUND_COLOR, BACKGROUND_IMAGE } from "@/constants/commons";
 import { Image } from "expo-image";
-import { ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
+import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
 
 export default function Index() {
   const { width, height } = useWindowDimensions();
   const bgHeight = width / BACKGROUND_ASPECT;
+
+  const bannerId = __DEV__ ? TestIds.ADAPTIVE_BANNER : "ca-app-pub-8531978728505043/2693791107";
 
   return (
     <View style={styles.container}>
@@ -36,6 +39,15 @@ export default function Index() {
         <RegionSelectBtns />
         <Weather />
       </ScrollView>
+      {Platform.OS !== "web" && (
+        <View style={{ alignItems: "center", paddingBottom: 8 }}>
+          <BannerAd
+            unitId={bannerId}
+            size={BannerAdSize.LARGE_ANCHORED_ADAPTIVE_BANNER}
+            requestOptions={{ requestNonPersonalizedAdsOnly: true }}
+          />
+        </View>
+      )}
       <Modal />
     </View>
   );

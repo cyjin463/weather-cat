@@ -7,6 +7,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
+import mobileAds from "react-native-google-mobile-ads";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,6 +36,10 @@ export default function RootLayout() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    void mobileAds().initialize();
+  }, [])
 
   if (!appReady) {
     return null;

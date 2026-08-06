@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "WeatherCat",
-    "slug": "WeatherCat",
+    "slug": "weathercat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/splash-icon.png",
     "scheme": "weathercat",
     "userInterfaceStyle": "automatic",
     "android": {
-      "package": "com.weathercat.app",
+      "package": "com.dev37.weathercat",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#A8D2F8",
@@ -60,7 +60,14 @@
           ]
         }
       ],
-      "expo-background-task"
+      "expo-background-task",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-8531978728505043~8842211146",
+          "iosAppId": "ca-app-pub-xxxxxxxx~xxxxxxxx"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
@@ -68,6 +75,13 @@
     },
     "ios": {
       "bundleIdentifier": "com.weathercat.app"
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ad149167-9704-47fd-bd89-322ecf261307"
+      }
+    },
+    "owner": "dev37s-team"
   }
 }
