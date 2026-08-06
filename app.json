@@ -7,6 +7,12 @@
     "icon": "./assets/images/splash-icon.png",
     "scheme": "weathercat",
     "userInterfaceStyle": "automatic",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ad149167-9704-47fd-bd89-322ecf261307"
+    },
     "android": {
       "package": "com.dev37.weathercat",
       "versionCode": 1,
@@ -19,7 +25,8 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "com.google.android.gms.permission.AD_ID"
       ]
     },
     "web": {
@@ -64,17 +71,13 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-8531978728505043~8842211146",
-          "iosAppId": "ca-app-pub-xxxxxxxx~xxxxxxxx"
+          "androidAppId": "ca-app-pub-8531978728505043~8842211146"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    },
-    "ios": {
-      "bundleIdentifier": "com.weathercat.app"
     },
     "extra": {
       "router": {},

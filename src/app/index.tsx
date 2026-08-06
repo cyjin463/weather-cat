@@ -43,7 +43,7 @@ export default function Index() {
         <View style={{ alignItems: "center", paddingBottom: 8 }}>
           <BannerAd
             unitId={bannerId}
-            size={BannerAdSize.LARGE_ANCHORED_ADAPTIVE_BANNER}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
             requestOptions={{ requestNonPersonalizedAdsOnly: true }}
           />
         </View>
