@@ -24,11 +24,13 @@ jobs:
       platform: android
       profile: production
 
-  submit_android:
-    needs: [build_android]
-    type: submit
-    params:
-      build_id: ${{ needs.build_android.outputs.build_id }}
+  # Play 자동 제출: Expo 대시보드 → Credentials → Google Service Account JSON 업로드 후 활성화
+  # submit_android:
+  #   needs: [build_android]
+  #   type: submit
+  #   params:
+  #     profile: production
+  #     build_id: ${{ needs.build_android.outputs.build_id }}
 
   publish_update:
     needs: [get_android_build]
