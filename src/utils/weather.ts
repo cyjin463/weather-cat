@@ -25,4 +25,4 @@ export const getCurrentTemperatureColor = (temperature: string) => {
     return "#78B4EB";
   }
   return "#5A4A4C";
-}
+};

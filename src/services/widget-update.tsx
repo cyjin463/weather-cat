@@ -30,17 +30,6 @@ async function renderSnapshot(snapshot: WidgetWeatherSnapshot | null) {
   });
 }
 
-/** 저장된 스냅샷으로 위젯만 다시 그립니다. */
-export async function updateWeatherCatWidget(
-  snapshot?: WidgetWeatherSnapshot | null,
-): Promise<void> {
-  if (Platform.OS !== "android") return;
-
-  const data =
-    snapshot === undefined ? await loadWidgetWeather() : snapshot;
-  await renderSnapshot(data);
-}
-
 async function renderLastOrEmpty(fallbackDistrict: string) {
   const saved = await loadWidgetWeather();
   if (saved) {
@@ -101,13 +90,4 @@ export async function refreshWidgetFromCurrentLocation(
   } catch {
     await renderLastOrEmpty("오류");
   }
-}
-
-/** 이미 조회한 현재 위치 날씨로 위젯을 저장·갱신합니다. */
-export async function syncLocationWeatherToWidget(
-  snapshot: WidgetWeatherSnapshot,
-): Promise<void> {
-  await saveWidgetWeather(snapshot);
-  if (Platform.OS !== "android") return;
-  await renderSnapshot(snapshot);
 }

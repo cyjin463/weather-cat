@@ -10,7 +10,7 @@ const WeatherTabs = () => {
         <Text style={[styles.tabText, tab === "today" && styles.tabTextActive]}>오늘</Text>
       </Pressable>
       <Pressable onPress={() => setTab("week")} style={[styles.tab, tab === "week" && styles.tabActive]}>
-        <Text style={[styles.tabText, tab === "week" && styles.tabTextActive]}>이번주</Text>
+        <Text style={[styles.tabText, tab === "week" && styles.tabTextActive]}>이번 주</Text>
       </Pressable>
     </View>
   );
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     color: WEATHER_COLORS.warm,
     fontWeight: "bold",
   },
-})
+});
 
 export default WeatherTabs;

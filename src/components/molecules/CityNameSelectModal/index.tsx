@@ -36,4 +36,4 @@ const CityNameSelectModal = () => {
 };
 
 
-export default CityNameSelectModal
+export default CityNameSelectModal;
