@@ -1,7 +1,7 @@
 import WeatherItemCard from "@/components/molecules/WeatherItemCard";
 import { useWeatherStore } from "@/stores/weather";
 import { WeatherData, WeatherHourly } from "@/types/weather";
-import { FlatList, View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 const WeatherTodayHourList = () => {
   const weatherData = useWeatherStore().weatherData as WeatherData | null;
@@ -25,20 +25,24 @@ const WeatherTodayHourList = () => {
 
   return (
     <View style={{ width: "100%", paddingTop: 5 }}>
-      <FlatList
-        data={hourlyToday}
-        keyExtractor={(item) => `${item.date}-${item.hour}`}
+      <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ width: "100%" }}
         contentContainerStyle={{ gap: 12, paddingHorizontal: 15 }}
-        renderItem={({ item }) => {
+      >
+        {hourlyToday.map((item) => {
           const { date, hour, weatherCode, temperature } = item as WeatherHourly;
           return (
-            <WeatherItemCard date={formatHour(date, hour)} weatherCode={weatherCode} temperature={temperature} />
-          )
-        }}
-      />
+            <WeatherItemCard
+              key={`${date}-${hour}`}
+              date={formatHour(date, hour)}
+              weatherCode={weatherCode}
+              temperature={temperature}
+            />
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };

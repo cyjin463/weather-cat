@@ -3,7 +3,8 @@ import WeekTemperatureItem from "@/components/atoms/WeekTemperatureItem";
 import { WEATHER_COLORS } from "@/constants/weather";
 import { useWeatherTabsStore } from "@/stores/weather";
 import { getWeatherImage } from "@/utils/weather";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
+import { StyleSheet, Text, View } from "react-native";
 
 interface WeatherItemCardProps {
   date: string;
@@ -29,7 +30,13 @@ const WeatherItemCard = ({ date, dayOfTheWeek, weatherCode, temperature, tempMax
   return (
     <View style={{ alignItems: "center", gap: 4 }}>
       <Text style={TextStyle}>{formatDate()}</Text>
-      <Image source={getWeatherImage(weatherCode)} style={{ width: 80, height: 80, borderRadius: 10 }} />
+      <Image
+        source={getWeatherImage(weatherCode)}
+        style={{ width: 80, height: 80, borderRadius: 10 }}
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        recyclingKey={`weather-${weatherCode}`}
+      />
       {tab === "today" && <TodayTemperatureItem temperature={temperature ?? ""} />}
       {tab === "week" && <WeekTemperatureItem tempMax={tempMax ?? ""} tempMin={tempMin ?? ""} />}
     </View>

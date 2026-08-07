@@ -5,6 +5,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~57.0.11",
+    "expo-asset": "~57.0.9",
     "expo-background-task": "~57.0.8",
     "expo-build-properties": "~57.0.9",
     "expo-constants": "~57.0.9",
@@ -15,7 +16,6 @@
     "expo-router": "~57.0.11",
     "expo-splash-screen": "~57.0.5",
     "expo-status-bar": "~57.0.1",
-    "expo-system-ui": "~57.0.2",
     "expo-task-manager": "~57.0.8",
     "expo-updates": "~57.0.12",
     "react": "19.2.3",
@@ -33,6 +33,8 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "eslint": "^9.39.5",
+    "eslint-config-expo": "~57.0.1",
     "expo-atlas": "^0.4.0",
     "typescript": "~6.0.3"
   },

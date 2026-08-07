@@ -4,7 +4,7 @@ import {
   getCurrentNearestRegion,
   loadCachedNearestRegion,
 } from "@/services/location";
-import { getFetchWeatherData } from "@/services/weather-api";
+import { getFetchCurrentWeather } from "@/services/weather-api";
 import { WeatherCatWidget } from "@/widgets/WeatherCatWidget";
 import {
   buildWidgetSnapshot,
@@ -71,16 +71,12 @@ export async function refreshWidgetFromCurrentLocation(
     }
 
     try {
-      const weatherData = await getFetchWeatherData(
+      const current = await getFetchCurrentWeather(
         result.region.lat,
         result.region.long,
       );
       const prev = await loadWidgetWeather();
-      const snapshot = buildWidgetSnapshot(
-        prev,
-        result.region,
-        weatherData.current,
-      );
+      const snapshot = buildWidgetSnapshot(prev, result.region, current);
 
       await saveWidgetWeather(snapshot);
       await renderSnapshot(snapshot);

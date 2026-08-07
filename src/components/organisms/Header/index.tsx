@@ -1,6 +1,7 @@
 import { HEADER_HEIGHT, LOGO_IMAGE } from "@/constants/commons";
 import { HeaderProps } from "@/types/header";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image } from "expo-image";
+import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const AppHeader = ({ back, onBack }: HeaderProps) => {
@@ -26,8 +27,9 @@ const AppHeader = ({ back, onBack }: HeaderProps) => {
         ) : null}
         <Image
           source={LOGO_IMAGE}
-          resizeMode="contain"
+          contentFit="contain"
           style={{ height: 34, width: "70%" }}
+          cachePolicy="memory-disk"
         />
       </View>
     </View>

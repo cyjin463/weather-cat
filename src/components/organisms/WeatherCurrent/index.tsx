@@ -1,6 +1,7 @@
 import { useWeatherStore } from "@/stores/weather";
 import { getCurrentTemperatureColor, getWeatherImage } from "@/utils/weather";
-import { Image, Text, View } from "react-native";
+import { Image } from "expo-image";
+import { Text, View } from "react-native";
 
 const WeatherCurrent = () => {
   const { weatherData } = useWeatherStore();
@@ -14,8 +15,10 @@ const WeatherCurrent = () => {
     <View style={{ width: "100%", alignItems: "center", gap: 4 }}>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>지금 여기는</Text>
         <Image
-         source={getWeatherImage(weatherData?.current.weatherCode ?? 0)}
-         style={{ width: 80, height: 80, borderRadius: 20, marginTop: 4 }}
+          source={getWeatherImage(weatherData?.current.weatherCode ?? 0)}
+          style={{ width: 80, height: 80, borderRadius: 20, marginTop: 4 }}
+          contentFit="cover"
+          cachePolicy="memory-disk"
         />
         <Text style={{
           fontSize: 16,

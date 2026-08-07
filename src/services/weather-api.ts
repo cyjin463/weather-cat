@@ -1,4 +1,4 @@
-import type { WeatherData, WeatherHourly } from "@/types/weather";
+import type { WeatherCurrent, WeatherData, WeatherHourly } from "@/types/weather";
 
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
 
@@ -22,6 +22,8 @@ function getLocalDateAndHour(timeZone: string): { date: string; hour: number } {
 }
 
 const MAX_HOURLY_ITEMS = 12;
+/** 현재 시부터 최대 12개(자정 넘김 포함)에 충분한 hourly 창 */
+const FORECAST_HOURS = 24;
 
 /** API timezone 기준 현재 시부터 최대 12개 (내일까지 포함) */
 function buildHourlyToday(
@@ -72,6 +74,32 @@ function buildHourlyToday(
   return result;
 }
 
+/** 위젯/백그라운드용 — current만 조회 */
+export async function getFetchCurrentWeather(
+  lat: string,
+  long: string,
+): Promise<WeatherCurrent> {
+  const url = new URL(FORECAST_URL);
+  url.searchParams.set("latitude", lat);
+  url.searchParams.set("longitude", long);
+  url.searchParams.set("current", "temperature_2m,weather_code");
+  url.searchParams.set("timezone", "auto");
+  url.searchParams.set("forecast_days", "1");
+
+  const res = await fetch(url.toString());
+
+  if (!res.ok) {
+    throw new Error(`날씨 조회 실패: ${res.status} ${res.statusText}`);
+  }
+
+  const json = await res.json();
+
+  return {
+    temperature: `${json.current.temperature_2m}°`,
+    weatherCode: json.current.weather_code,
+  };
+}
+
 export async function getFetchWeatherData(
   lat: string,
   long: string,
@@ -80,14 +108,15 @@ export async function getFetchWeatherData(
   const url = new URL(FORECAST_URL);
   url.searchParams.set("latitude", lat);
   url.searchParams.set("longitude", long);
-  url.searchParams.set("current", "temperature_2m,weather_code,is_day");
+  url.searchParams.set("current", "temperature_2m,weather_code");
   url.searchParams.set(
     "daily",
-    "weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset",
+    "weathercode,temperature_2m_max,temperature_2m_min",
   );
   url.searchParams.set("hourly", "temperature_2m,weather_code");
   url.searchParams.set("timezone", "auto");
   url.searchParams.set("forecast_days", forecastDays.toString());
+  url.searchParams.set("forecast_hours", FORECAST_HOURS.toString());
 
   const res = await fetch(url.toString());
 
